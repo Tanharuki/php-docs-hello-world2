@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'haotecher'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EBE767DB9BF04A41904366AAA8A937D5 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4621A2BBED9E4F0A8890768E7956CE38 }}
           package: .
