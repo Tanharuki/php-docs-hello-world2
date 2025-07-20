@@ -1,18 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>浩子老师的日语学习班</title>
+    <meta charset="UTF-8">
+    <title>テキストファイルアップロード</title>
 </head>
 <body>
-    <h1>浩子老师的日语学习班</h1>
-    <p>你好，我是浩子老师，旅居日本工作生活近10年。</p>
-    <p>生活有点无聊，我想开一个小班，10人左右，然后大家一起学习日语。</p>
-    <p>收费20元/小时左右。</p>
-    <p>如果你家庭经济不宽裕，而且学习努力，一年后，我可以退你一半的费用。</p>
-    <p>针对努力的同学，还会提供赴日留学服务。</p>
-    <p>如果你想学习日语的话，可以加我微信哦。注明：浩子老师，日语学习。</p>
+    <h2>テキストファイルアップロード</h2>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="file" name="textfile" accept=".txt">
+        <input type="submit" value="アップロード">
+    </form>
 
-    <h2>联系方式</h2>
-    <p>微信: <strong>damowenshu</strong></p>
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["textfile"])) {
+        $uploadDir = "uploads/";
+        $uploadFile = $uploadDir . basename($_FILES["textfile"]["name"]);
+        
+        // アップロードディレクトリが存在しない場合は作成
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        // ファイルがテキストファイルかチェック
+        $fileType = pathinfo($uploadFile, PATHINFO_EXTENSION);
+        if ($fileType != "txt") {
+            echo "<p>エラー: テキストファイル（.txt）のみアップロード可能です。</p>";
+        } else {
+            // ファイルを指定ディレクトリに移動
+            if (move_uploaded_file($_FILES["textfile"]["tmp_name"], $uploadFile)) {
+                echo "<p>ファイルが正常にアップロードされました: " . htmlspecialchars(basename($uploadFile)) . "</p>";
+            } else {
+                echo "<p>エラー: ファイルのアップロードに失敗しました。</p>";
+            }
+        }
+    }
+    ?>
 </body>
 </html>
